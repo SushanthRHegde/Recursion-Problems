@@ -25,3 +25,36 @@ public:
         return res[k - 1];
     }
 };
+
+//Using the Iterative method
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        // Create a list of numbers to get permutations of
+        string numbers;
+        for(int i = 1; i <= n; i++){
+            numbers += to_string(i);
+        }
+        
+        // Precompute factorials
+        vector<int> factorial(n);
+        factorial[0] = 1;
+        for(int i = 1; i < n; i++){
+            factorial[i] = factorial[i - 1] * i;
+        }
+        
+        // Adjust k to be zero-indexed
+        k--;
+        
+        string result;
+        for(int i = n; i > 0; i--){
+            int idx = k / factorial[i - 1];
+            k %= factorial[i - 1];
+            
+            result += numbers[idx];
+            numbers.erase(numbers.begin() + idx);
+        }
+        
+        return result;
+    }
+};
